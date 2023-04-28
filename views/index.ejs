@@ -4,18 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API Documentation</title>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
     <style>
+      @import url(//fonts.googleapis.com/css?family=Lato:300:400);
       body {
-        font-family: "Roboto", sans-serif;
+        font-family: "Lato", "Roboto", sans-serif;
         margin: 0;
         padding: 0;
-      }
-
-      .header {
-        background-color: #1e90ff;
-        color: #fff;
-        padding: 20px;
-        text-align: center;
       }
 
       h1 {
@@ -34,6 +35,7 @@
         background-color: #f8f8f8;
         padding: 20px;
         overflow-y: auto;
+        border-radius: 10px;
       }
 
       .sidebar h2 {
@@ -98,53 +100,391 @@
         background-color: #f8f8f8;
         padding: 10px;
         overflow-x: auto;
-        font-size: 14px;
+        font-size: 13px;
         font-family: "Fira Code", monospace;
         border-radius: 5px;
         margin-bottom: 20px;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      h1 {
+        font-family: "Lato", sans-serif;
+        font-weight: 300;
+        letter-spacing: 2px;
+        font-size: 48px;
+      }
+      p {
+        font-family: "Lato", sans-serif;
+        letter-spacing: 1px;
+        font-size: 14px;
+        color: #333333;
+      }
+
+      .header {
+        position: relative;
+        text-align: center;
+        background: linear-gradient(
+          60deg,
+          rgba(84, 58, 183, 1) 0%,
+          rgba(0, 172, 193, 1) 100%
+        );
+        color: white;
+      }
+      .logo {
+        width: 50px;
+        fill: white;
+        padding-right: 15px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .inner-header {
+        height: 45vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .flex {
+        /*Flexbox for containers*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .waves {
+        position: relative;
+        width: 100%;
+        height: 15vh;
+        margin-bottom: -7px; /*Fix for safari gap*/
+        min-height: 100px;
+        max-height: 150px;
+      }
+
+      .content {
+        position: relative;
+        height: 20vh;
+        text-align: center;
+        background-color: white;
+      }
+
+      /* Animation */
+
+      .parallax > use {
+        animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+      }
+      .parallax > use:nth-child(1) {
+        animation-delay: -2s;
+        animation-duration: 7s;
+      }
+      .parallax > use:nth-child(2) {
+        animation-delay: -3s;
+        animation-duration: 10s;
+      }
+      .parallax > use:nth-child(3) {
+        animation-delay: -4s;
+        animation-duration: 13s;
+      }
+      .parallax > use:nth-child(4) {
+        animation-delay: -5s;
+        animation-duration: 20s;
+      }
+      @keyframes move-forever {
+        0% {
+          transform: translate3d(-90px, 0, 0);
+        }
+        100% {
+          transform: translate3d(85px, 0, 0);
+        }
+      }
+      /*Shrinking for mobile*/
+      @media (max-width: 768px) {
+        .waves {
+          height: 40px;
+          min-height: 40px;
+        }
+        .content {
+          height: 30vh;
+        }
+        h1 {
+          font-size: 24px;
+        }
+      }
+      @media (max-width: 600px) {
+        .header h1 {
+          font-size: 1.9em;
+          margin-bottom: -10px;
+        }
+
+        .header h3 {
+          font-size: 1.2em;
+        }
+
+        .header a {
+          all: unset;
+          cursor: pointer;
+          color: #b6b6b6;
+        }
+
+        pre {
+          font-size: 11px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="header">
-      <h1>API Documentation</h1>
+      <!--Content before waves-->
+      <div class="inner-header flex">
+        <!--Just the logo.. Don't mind this-->
+        <svg
+          version="1.1"
+          class="logo"
+          baseProfile="tiny"
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 0 500 500"
+          xml:space="preserve"
+        >
+          <path
+            fill="#FFFFFF"
+            stroke="#000000"
+            stroke-width="10"
+            stroke-miterlimit="10"
+            d="M57,283"
+          />
+          <g>
+            <path
+              fill="#fff"
+              d="M250.4,0.8C112.7,0.8,1,112.4,1,250.2c0,137.7,111.7,249.4,249.4,249.4c137.7,0,249.4-111.7,249.4-249.4
+      C499.8,112.4,388.1,0.8,250.4,0.8z M383.8,326.3c-62,0-101.4-14.1-117.6-46.3c-17.1-34.1-2.3-75.4,13.2-104.1
+      c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3,62.4c-19.8,19.1-51.6,26.9-100.2,24.6l1.8-39.7    c35.9,1.6,59.7-2.9,70.8-13.6c8.9-8.6,11.1-22.9,13.5-39.6c6.3-42,14.8-99.4,141.4-99.4h41L333,166c-12.6,16-45.4,68.2-31.2,96.2  c9.2,18.3,41.5,25.6,91.2,24.2l1.1,39.8C390.5,326.2,387.1,326.3,383.8,326.3z"
+            />
+          </g>
+        </svg>
+        <div class="flex-column">
+          <h1>Loan System API</h1>
+          <h3>
+            API Documentation built by Micheal
+            <a href="https://www.linkedin.com/in/micheal-ighietsemhe-502640222/"
+              >Hello</a
+            >
+          </h3>
+        </div>
+      </div>
+
+      <!--Waves Container-->
+      <div>
+        <svg
+          class="waves"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28"
+          preserveAspectRatio="none"
+          shape-rendering="auto"
+        >
+          <defs>
+            <path
+              id="gentle-wave"
+              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+            />
+          </defs>
+          <g class="parallax">
+            <use
+              xlink:href="#gentle-wave"
+              x="48"
+              y="0"
+              fill="rgba(255,255,255,0.7"
+            />
+            <use
+              xlink:href="#gentle-wave"
+              x="48"
+              y="3"
+              fill="rgba(255,255,255,0.5)"
+            />
+            <use
+              xlink:href="#gentle-wave"
+              x="48"
+              y="5"
+              fill="rgba(255,255,255,0.3)"
+            />
+            <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+          </g>
+        </svg>
+      </div>
+      <!--Waves end-->
     </div>
-    <div class="container">
+    <!--Header ends-->
+
+    <div class="container-fluid">
       <div class="sidebar">
         <h2>Endpoints</h2>
         <ul>
-          <li><a href="#users">/users</a></li>
-          <li><a href="#user">/users/{id}</a></li>
-          <li><a href="#post">/users (POST)</a></li>
-          <li><a href="#put">/users/{id} (PUT)</a></li>
-          <li><a href="#delete">/users/{id} (DELETE)</a></li>
+          <li><a href="#register">Register User</a></li>
+          <li><a href="#login">Login User</a></li>
+          <li><a href="#resend">Resend Verification Link</a></li>
+          <li><a href="#logout">Logout User</a></li>
+          <li><a href="#forgot">Forgot Password</a></li>
         </ul>
       </div>
       <div class="main">
-        <section id="users">
-          <h2>/users</h2>
-          <p>Returns a list of all users in the database.</p>
-          <pre>GET /users/1</pre>
-          <pre>
-            Response:
-            [
-                {
-                "id": 1,
-                "name": "John Doe",
-                "email": "john.doe@example.com",
-                "age": 30
-                },
-                {
-                "id": 2,
-                "name": "Jane Smith",
-                "email": "jane.smith@example.com",
-                "age": 25
-                }
-            ]
-        </pre
-          >
+        <section id="register">
+          <h2>Register user</h2>
+          <p>Registers a user in the database.</p>
+          <pre>POST /api/v1/loan/users</pre>
+          <pre class="pad">
+POST /api/v1/loan/users
+Content-Type: application/json
+
+{
+  "full_name": "John Doe Foster",
+  "username": "John300",
+  "email": "john.doe@example.com",
+  "telephone": "+123456790",
+  "address": "John Doe Street",
+  "postal_code": 100000,
+  "state": "Any State",
+  "country": "Any Country",
+  "password": "Password$12."
+}
+          </pre>
+          <pre class="pad">
+Response:
+{
+  "msg": "Registration successful",
+  "verification": "A verification link has been sent to your email. Please check your inbox",
+  "user": {
+    "full_name": "John Doe Foster",
+    "username": "John300",
+    "email": "john.doe@example.com",
+    "telephone": "+123456790",
+    "address": "John Doe Street",
+    "postal_code": 100000,
+    "state": "Any State",
+    "country": "Any Country",
+    "password": "$2b$10$k490QbblKMk3fiB2hKk0medwu6.HY.L5fN10mEh2C6ZROSwcrnWPG",
+    "verified": false,
+    "_id": "644be0468626f74ccc304839",
+    "createdAt": "2023-04-28T15:03:34.470Z",
+    "updatedAt": "2023-04-28T15:03:34.470Z",
+    " __v": 0
+  }
+}
+          </pre>
         </section>
-        <section id="user">
+        <section id="login">
+          <h2>Login</h2>
+          <p>Log in to your account.</p>
+          <pre>GET /api/v1/loan/users</pre>
+          <pre class="pad">
+GET /api/v1/loan/users
+Content-Type: application/json
+
+{
+  "email_username": "John300",
+  "password": "Password$12."
+}
+          </pre>
+          <pre class="pad">
+Response:
+{
+  "msg": "Login successful",
+  "user": [
+    {
+      "_id": "644be2588626f74ccc304844",
+      "userId": "644be0468626f74ccc304839",
+      "uniqueString": "$2b$10$XcEf8lv.ZVBWibKDVHLKy.C.5O/ub49vdHsu/CqhSM3tEEU0pjCNe",
+      "createdAt": "2023-04-28T15:12:24.716Z",
+      "expiresAt": "2023-04-28T15:27:24.716Z",
+      "__v": 0
+    }
+  ]
+}
+          </pre>
+        </section>
+        <section id="resend">
+          <h2>Resend verification link</h2>
+          <p>Resend email verification to the user.</p>
+          <pre>GET /api/v1/loan/verify</pre>
+          <pre class="pad">
+GET /api/v1/loan/verify
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com"
+}
+          </pre>
+          <pre class="pad">
+Response:
+{
+  "verification": "A verification link has been sent to your email. Please check your inbox",
+  "user": [
+    {
+      "_id": "644be0468626f74ccc30483b",
+      "userId": "644be0468626f74ccc304839",
+      "uniqueString": "$2b$10$TUgvGieEfpnsyQtjFo5gdOXYn2xJPj/lxNqQSWllFgyQ5K.I50gNa",
+      "createdAt": "2023-04-28T15:03:34.802Z",
+      "expiresAt": "2023-04-28T21:03:34.802Z",
+      "__v": 0
+    }
+  ]
+}
+          </pre>
+        </section>
+        <section id="logout">
+          <h2>Logout user</h2>
+          <p>Logout the user from the system.</p>
+          <pre>POST /api/v1/loan/logout</pre>
+          <pre class="pad">
+Response:
+{
+  "msg": "Logout successful"
+}
+          </pre>
+        </section>
+        <section id="forgot">
+          <h2>Forgot password</h2>
+          <p>Send reset password link to the user.</p>
+          <pre>GET /api/v1/loan/forgotpassword</pre>
+          <pre class="pad">
+GET /api/v1/loan/verify
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com"
+}
+          </pre>
+          <pre class="pad">
+Response:
+{
+  "msg": "Password reset link sent. Please check your inbox!",
+  "user": {
+    "_id": "644be0468626f74ccc304839",
+    "full_name": "John Doe Foster",
+    "username": "John300",
+    "email": "john.doe@example.com",
+    "telephone": "+123456790",
+    "address": "John Doe Street",
+    "postal_code": 100000,
+    "state": "Any State",
+    "country": "Any Country",
+    "password": "$2b$10$k490QbblKMk3fiB2hKk0medwu6.HY.L5fN10mEh2C6ZROSwcrnWPG",
+    "verified": false,
+    "createdAt": "2023-04-28T15:03:34.470Z",
+    "updatedAt": "2023-04-28T15:03:34.470Z",
+    "__v": 0
+  }
+}
+          </pre>
+        </section>
+        <!-- <section id="user">
           <h2>/users/{id}</h2>
           <p>Returns the user with the specified ID.</p>
           <pre>GET /users/1</pre>
@@ -214,8 +554,15 @@
               "message": "User deleted successfully"
             }
           </pre>
-        </section>
+        </section> -->
       </div>
     </div>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   </body>
 </html>

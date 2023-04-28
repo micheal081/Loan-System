@@ -39,7 +39,7 @@ const { createCustomError } = require("../errors/custom-error");
 
 // render home page
 const home = asyncWrapper(async (req, res) => {
-  res.render('index');
+  res.render("index");
 });
 
 // Create a transporter object
@@ -113,12 +113,13 @@ const register = asyncWrapper(async (req, res) => {
           const user = new User(req.body);
           user
             .save()
-            .then((data) => {
-              sendVerificationEmail(data, req, res);
+            .then((info) => {
+              sendVerificationEmail(info, req, res);
               res.status(201).json({
                 msg: "Registration successful",
                 verification:
                   "A verification link has been sent to your email. Please check your inbox",
+                user: info,
               });
             })
             .catch((err) => {
@@ -129,7 +130,7 @@ const register = asyncWrapper(async (req, res) => {
             });
         });
       } else {
-        res.status(200).json({ msg: "This user already exists" });
+        res.status(200).json({ msg: "This user already exists", user: data });
       }
     })
     .catch((err) => console.log(err));
@@ -252,6 +253,7 @@ const resendVerify = asyncWrapper(async (req, res) => {
                     res.status(201).json({
                       verification:
                         "A verification link has been sent to your email. Please check your inbox",
+                      user: result,
                     });
                   })
                   .catch((err) => {
@@ -327,13 +329,17 @@ const login = asyncWrapper(async (req, res) => {
                   ) {
                     req.session.userId = data._id;
                     req.session.isAuth = true;
-                    res.status(201).json({ msg: "Login successful" });
+                    res
+                      .status(201)
+                      .json({ msg: "Login successful", user: info });
                   } else {
                     ResetPassword.findOneAndDelete({ userId: info[0].userId })
                       .then(() => {
                         req.session.userId = data._id;
                         req.session.isAuth = true;
-                        res.status(201).json({ msg: "Login successful" });
+                        res
+                          .status(201)
+                          .json({ msg: "Login successful", user: info });
                       })
                       .catch((err) => {
                         console.log(err);
@@ -382,7 +388,10 @@ const forgotPassword = asyncWrapper(async (req, res) => {
         sendPasswordLink(data, req, res);
         res
           .status(201)
-          .json({ msg: "Password reset link sent. Please check your inbox!" });
+          .json({
+            msg: "Password reset link sent. Please check your inbox!",
+            user: data,
+          });
       }
     })
     .catch((err) => {
@@ -493,9 +502,10 @@ const changePassword = asyncWrapper(async (req, res) => {
                 User.updateOne({ _id: userId }, { password: password })
                   .then(() => {
                     ResetPassword.deleteOne({ userId })
-                      .then(() => {
+                      .then((data) => {
                         res.status(201).json({
                           msg: "Password reset successful!",
+                          user: data,
                         });
                       })
                       .catch((err) => {
@@ -543,7 +553,7 @@ const changePassword = asyncWrapper(async (req, res) => {
 // Logout API
 const logout = asyncWrapper(async (req, res) => {
   req.session.destroy();
-  res.status(200).json({ message: "Logout successful" });
+  res.status(200).json({ msg: "Logout successful" });
 });
 
 // Dashboard API

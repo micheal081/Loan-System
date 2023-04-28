@@ -13,7 +13,15 @@ const {
   home,
 } = require("../controllers/loan");
 
-router.route("/").get(home).post(isAuthenticated, logout);
+// Allow access to our API
+router.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested, Content-Type, Accept, Authorization");
+  next()
+})
+
+router.route("/").get(home).post();
+router.route("/logout").post(isAuthenticated, logout);
 router.route("/users").get(login).post(register);
 router.route("/verify").get(resendVerify).post();
 router.route("/:id").get().patch().delete();
