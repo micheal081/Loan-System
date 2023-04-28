@@ -130,7 +130,33 @@ const register = asyncWrapper(async (req, res) => {
             });
         });
       } else {
-        res.status(200).json({ msg: "This user already exists", user: data });
+        const {
+          _id,
+          full_name,
+          username,
+          email,
+          telephone,
+          address,
+          postal_code,
+          state,
+          country,
+          verified,
+        } = data;
+        const responseData = {
+          _id,
+          full_name,
+          username,
+          email,
+          telephone,
+          address,
+          postal_code,
+          state,
+          country,
+          verified,
+        };
+        res
+          .status(200)
+          .json({ msg: "This user already exists", user: responseData });
       }
     })
     .catch((err) => console.log(err));
@@ -179,11 +205,36 @@ const verify = asyncWrapper(async (req, res) => {
               if (result) {
                 //  strings match
                 User.updateOne({ _id: userId }, { verified: true })
-                  .then(() => {
+                  .then((data) => {
                     UserVerify.deleteOne({ userId })
                       .then(() => {
+                        const {
+                          _id,
+                          full_name,
+                          username,
+                          email,
+                          telephone,
+                          address,
+                          postal_code,
+                          state,
+                          country,
+                          verified,
+                        } = data;
+                        const responseData = {
+                          _id,
+                          full_name,
+                          username,
+                          email,
+                          telephone,
+                          address,
+                          postal_code,
+                          state,
+                          country,
+                          verified,
+                        };
                         res.status(201).json({
                           msg: "User has been verified!",
+                          user: responseData,
                         });
                       })
                       .catch((err) => {
@@ -250,10 +301,34 @@ const resendVerify = asyncWrapper(async (req, res) => {
                 UserVerify.deleteOne({ userId: data._id })
                   .then(() => {
                     sendVerificationEmail(data, req, res);
+                    const {
+                      _id,
+                      full_name,
+                      username,
+                      email,
+                      telephone,
+                      address,
+                      postal_code,
+                      state,
+                      country,
+                      verified,
+                    } = data;
+                    const responseData = {
+                      _id,
+                      full_name,
+                      username,
+                      email,
+                      telephone,
+                      address,
+                      postal_code,
+                      state,
+                      country,
+                      verified,
+                    };
                     res.status(201).json({
                       verification:
                         "A verification link has been sent to your email. Please check your inbox",
-                      user: result,
+                      user: responseData,
                     });
                   })
                   .catch((err) => {
@@ -329,17 +404,68 @@ const login = asyncWrapper(async (req, res) => {
                   ) {
                     req.session.userId = data._id;
                     req.session.isAuth = true;
+                    const {
+                      _id,
+                      full_name,
+                      username,
+                      email,
+                      telephone,
+                      address,
+                      postal_code,
+                      state,
+                      country,
+                      verified,
+                    } = data;
+                    const responseData = {
+                      _id,
+                      full_name,
+                      username,
+                      email,
+                      telephone,
+                      address,
+                      postal_code,
+                      state,
+                      country,
+                      verified,
+                    };
                     res
                       .status(201)
-                      .json({ msg: "Login successful", user: info });
+                      .json({ msg: "Login successful", user: responseData });
                   } else {
                     ResetPassword.findOneAndDelete({ userId: info[0].userId })
                       .then(() => {
                         req.session.userId = data._id;
                         req.session.isAuth = true;
+                        const {
+                          _id,
+                          full_name,
+                          username,
+                          email,
+                          telephone,
+                          address,
+                          postal_code,
+                          state,
+                          country,
+                          verified,
+                        } = data;
+                        const responseData = {
+                          _id,
+                          full_name,
+                          username,
+                          email,
+                          telephone,
+                          address,
+                          postal_code,
+                          state,
+                          country,
+                          verified,
+                        };
                         res
                           .status(201)
-                          .json({ msg: "Login successful", user: info });
+                          .json({
+                            msg: "Login successful",
+                            user: responseData,
+                          });
                       })
                       .catch((err) => {
                         console.log(err);
@@ -386,12 +512,10 @@ const forgotPassword = asyncWrapper(async (req, res) => {
         // Handles password reset
         console.log(data);
         sendPasswordLink(data, req, res);
-        res
-          .status(201)
-          .json({
-            msg: "Password reset link sent. Please check your inbox!",
-            user: data,
-          });
+        res.status(201).json({
+          msg: "Password reset link sent. Please check your inbox!",
+          user: data,
+        });
       }
     })
     .catch((err) => {
@@ -503,9 +627,33 @@ const changePassword = asyncWrapper(async (req, res) => {
                   .then(() => {
                     ResetPassword.deleteOne({ userId })
                       .then((data) => {
+                        const {
+                          _id,
+                          full_name,
+                          username,
+                          email,
+                          telephone,
+                          address,
+                          postal_code,
+                          state,
+                          country,
+                          verified,
+                        } = data;
+                        const responseData = {
+                          _id,
+                          full_name,
+                          username,
+                          email,
+                          telephone,
+                          address,
+                          postal_code,
+                          state,
+                          country,
+                          verified,
+                        };
                         res.status(201).json({
                           msg: "Password reset successful!",
-                          user: data,
+                          user: responseData,
                         });
                       })
                       .catch((err) => {

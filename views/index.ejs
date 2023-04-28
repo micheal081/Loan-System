@@ -361,6 +361,7 @@ Response:
   "msg": "Registration successful",
   "verification": "A verification link has been sent to your email. Please check your inbox",
   "user": {
+    "_id": "644be0468626f74ccc304839",
     "full_name": "John Doe Foster",
     "username": "John300",
     "email": "john.doe@example.com",
@@ -369,12 +370,7 @@ Response:
     "postal_code": 100000,
     "state": "Any State",
     "country": "Any Country",
-    "password": "$2b$10$k490QbblKMk3fiB2hKk0medwu6.HY.L5fN10mEh2C6ZROSwcrnWPG",
     "verified": false,
-    "_id": "644be0468626f74ccc304839",
-    "createdAt": "2023-04-28T15:03:34.470Z",
-    "updatedAt": "2023-04-28T15:03:34.470Z",
-    " __v": 0
   }
 }
           </pre>
@@ -396,16 +392,18 @@ Content-Type: application/json
 Response:
 {
   "msg": "Login successful",
-  "user": [
-    {
-      "_id": "644be2588626f74ccc304844",
-      "userId": "644be0468626f74ccc304839",
-      "uniqueString": "$2b$10$XcEf8lv.ZVBWibKDVHLKy.C.5O/ub49vdHsu/CqhSM3tEEU0pjCNe",
-      "createdAt": "2023-04-28T15:12:24.716Z",
-      "expiresAt": "2023-04-28T15:27:24.716Z",
-      "__v": 0
-    }
-  ]
+  "user": {
+      "_id": "644be0468626f74ccc304839",
+      "full_name": "John Doe Foster",
+      "username": "John300",
+      "email": "john.doe@example.com",
+      "telephone": "+123456790",
+      "address": "John Doe Street",
+      "postal_code": 100000,
+      "state": "Any State",
+      "country": "Any Country",
+      "verified": true,
+  }
 }
           </pre>
         </section>
@@ -427,12 +425,16 @@ Response:
   "verification": "A verification link has been sent to your email. Please check your inbox",
   "user": [
     {
-      "_id": "644be0468626f74ccc30483b",
-      "userId": "644be0468626f74ccc304839",
-      "uniqueString": "$2b$10$TUgvGieEfpnsyQtjFo5gdOXYn2xJPj/lxNqQSWllFgyQ5K.I50gNa",
-      "createdAt": "2023-04-28T15:03:34.802Z",
-      "expiresAt": "2023-04-28T21:03:34.802Z",
-      "__v": 0
+      _id": "644be0468626f74ccc304839",
+      "full_name": "John Doe Foster",
+      "username": "John300",
+      "email": "john.doe@example.com",
+      "telephone": "+123456790",
+      "address": "John Doe Street",
+      "postal_code": 100000,
+      "state": "Any State",
+      "country": "Any Country",
+      "verified": true,
     }
   ]
 }
@@ -475,11 +477,7 @@ Response:
     "postal_code": 100000,
     "state": "Any State",
     "country": "Any Country",
-    "password": "$2b$10$k490QbblKMk3fiB2hKk0medwu6.HY.L5fN10mEh2C6ZROSwcrnWPG",
     "verified": false,
-    "createdAt": "2023-04-28T15:03:34.470Z",
-    "updatedAt": "2023-04-28T15:03:34.470Z",
-    "__v": 0
   }
 }
           </pre>
