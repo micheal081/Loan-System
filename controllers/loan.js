@@ -39,7 +39,7 @@ const { createCustomError } = require("../errors/custom-error");
 
 // render home page
 const home = asyncWrapper(async (req, res) => {
-  res.sendFile('index.html', { root: './public' });
+  res.render('index');
 });
 
 // Create a transporter object

@@ -8,7 +8,8 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-//middleware
+// For accepting post form data
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // Sessions handler
@@ -25,8 +26,11 @@ app.use(session({
   store: store,
 }));
 
-// Serve static files from the "public" directory
-app.use(express.static('public'));
+// static Files
+app.use(express.static('public'))
+
+// Set Templating Engine
+app.set('view engine', 'ejs')
 
 //routes
 app.use("/api/v1/loan", loan);
