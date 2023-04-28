@@ -39,8 +39,8 @@ const { createCustomError } = require("../errors/custom-error");
 
 // render home page
 const home = asyncWrapper(async (req, res) => {
-  res.status(200).json({message: "Welcome to Micheal's Loan System API"})
-})
+  res.sendFile('index.html', { root: './public' });
+});
 
 // Create a transporter object
 let transporter = nodemailer.createTransport({
@@ -54,7 +54,7 @@ let transporter = nodemailer.createTransport({
 
 // Send verification email
 const sendVerificationEmail = ({ _id, email }, req, res) => {
-  const currentUrl = "http://localhost:3000/api/v1/loan/";
+  const currentUrl = "https://loansystem.onrender.com/api/v1/loan/";
   const uniqueString = uuidv4() + _id;
   const mailOptions = sendVerificationLink(
     email,
@@ -395,7 +395,8 @@ const forgotPassword = asyncWrapper(async (req, res) => {
 
 // Send Reset Password Link
 const sendPasswordLink = ({ _id, email }, req, res) => {
-  const currentUrl = "http://localhost:3000/api/v1/loan/viewresetpasswordpage";
+  const currentUrl =
+    "https://loansystem.onrender.com/api/v1/loan/viewresetpasswordpage";
   const uniqueString = uuidv4() + _id;
   const mailOptions = sendPasswordResetLink(
     email,
@@ -446,7 +447,8 @@ const sendPasswordLink = ({ _id, email }, req, res) => {
 
 // View password reset page
 const viewResetPasswordPage = asyncWrapper(async (req, res) => {
-  const currentUrl = "http://localhost:3000/api/v1/loan/changepassword";
+  const currentUrl =
+    "https://loansystem.onrender.com/api/v1/loan/changepassword";
   let { userId, uniqueString } = req.params;
   res.status(201).json({
     msg: "Password has been reset. Follow this URL to input your new password",
@@ -544,6 +546,13 @@ const logout = asyncWrapper(async (req, res) => {
   res.status(200).json({ message: "Logout successful" });
 });
 
+// Dashboard API
+const dashboard = asyncWrapper(async (req, res) => {
+  if (req.session.isAuth) {
+  } else {
+  }
+});
+
 module.exports = {
   login,
   register,
@@ -554,5 +563,5 @@ module.exports = {
   forgotPassword,
   changePassword,
   viewResetPasswordPage,
-  home
+  home,
 };

@@ -25,6 +25,9 @@ app.use(session({
   store: store,
 }));
 
+// Serve static files from the "public" directory
+app.use(express.static('public'));
+
 //routes
 app.use("/api/v1/loan", loan);
 app.use(notFound);
