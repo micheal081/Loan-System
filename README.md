@@ -1,7 +1,7 @@
 Contact me for more clarifications and project leads:
 michig3000@gmail.com
 
-- LOAN SYSTEM API
+LOAN SYSTEM API
 This is a Node.js-based server application that provides API endpoints for loan services. It has two sets of routes, one for users and the other for administrators. Users' routes handle requests related to user authentication, loan application, loan repayment, and other user-specific operations. Admin routes handle requests related to administrative tasks such as approving or rejecting loan applications, disbursing funds, and managing administrators' accounts.
 
 - Technology Stack
