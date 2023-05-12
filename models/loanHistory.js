@@ -11,19 +11,20 @@ const LoanHistorySchema = new mongoose.Schema(
       required: [true, "Loan amount is required"],
       trim: true,
     },
-    eligible: {
-      type: Boolean,
-      required: true,
-      default: false,
+    approved: {
+      status: {
+        type: Boolean,
+        required: true
+      },
+      date: {
+        type: Date,
+        required: true
+      },
     },
-    loan_approved_date: {
+    loan_repayment_date: {
       type: Date,
       required: true,
-    },
-    loan_repayed: {
-      type: Boolean,
-      required: true,
-      default: false,
+      default: null,
     },
   },
   {

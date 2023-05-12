@@ -6,10 +6,22 @@ const LoanRepaymentHistorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    loan_id: {
+      type: String,
+      required: true
+    },
     amount_paid: {
-      type: Number,
+      type: String,
       trim: true,
     },
+    reference_code: {
+      type: String,
+      required: true
+    },
+    repayment_date: {
+      type: Date,
+      required: true
+    }
   },
   {
     timestamps: true,

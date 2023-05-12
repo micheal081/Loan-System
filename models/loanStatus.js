@@ -6,15 +6,9 @@ const LoanStatusSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    loan_amount: {
-      type: Number,
-      required: [true, "Loan amount is required"],
-      trim: true,
-    },
     eligible: {
       type: Boolean,
-      required: true,
-      default: false,
+      default: true,
     },
   },
   {

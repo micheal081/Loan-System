@@ -7,12 +7,12 @@ const DisburseSchema = new mongoose.Schema(
       required: true,
     },
     loan_amount: {
-      type: Number,
+      type: String,
       required: [true, "Loan amount is required"],
       trim: true,
     },
     account_number: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
     },
@@ -23,7 +23,6 @@ const DisburseSchema = new mongoose.Schema(
     },
     disbursed: {
       type: Boolean,
-      required: true,
       default: false,
     },
   },

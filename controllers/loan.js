@@ -37,11 +37,6 @@ require("dotenv").config();
 // Custom Error middleware
 const { createCustomError } = require("../errors/custom-error");
 
-// render home page
-const home = asyncWrapper(async (req, res) => {
-  res.render("index");
-});
-
 // Create a transporter object
 let transporter = nodemailer.createTransport({
   host: "sandbox.smtp.mailtrap.io",
@@ -54,7 +49,7 @@ let transporter = nodemailer.createTransport({
 
 // Send verification email
 const sendVerificationEmail = ({ _id, email }, req, res) => {
-  const currentUrl = "https://loansystem.onrender.com/api/v1/loan/";
+  const currentUrl = "http://localhost:3000/api/v1/loan/";
   const uniqueString = uuidv4() + _id;
   const mailOptions = sendVerificationLink(
     email,
@@ -113,13 +108,12 @@ const register = asyncWrapper(async (req, res) => {
           const user = new User(req.body);
           user
             .save()
-            .then((info) => {
-              sendVerificationEmail(info, req, res);
+            .then((data) => {
+              sendVerificationEmail(data, req, res);
               res.status(201).json({
                 msg: "Registration successful",
                 verification:
                   "A verification link has been sent to your email. Please check your inbox",
-                user: info,
               });
             })
             .catch((err) => {
@@ -130,33 +124,7 @@ const register = asyncWrapper(async (req, res) => {
             });
         });
       } else {
-        const {
-          _id,
-          full_name,
-          username,
-          email,
-          telephone,
-          address,
-          postal_code,
-          state,
-          country,
-          verified,
-        } = data;
-        const responseData = {
-          _id,
-          full_name,
-          username,
-          email,
-          telephone,
-          address,
-          postal_code,
-          state,
-          country,
-          verified,
-        };
-        res
-          .status(200)
-          .json({ msg: "This user already exists", user: responseData });
+        res.status(200).json({ msg: "This user already exists" });
       }
     })
     .catch((err) => console.log(err));
@@ -205,36 +173,11 @@ const verify = asyncWrapper(async (req, res) => {
               if (result) {
                 //  strings match
                 User.updateOne({ _id: userId }, { verified: true })
-                  .then((data) => {
+                  .then(() => {
                     UserVerify.deleteOne({ userId })
                       .then(() => {
-                        const {
-                          _id,
-                          full_name,
-                          username,
-                          email,
-                          telephone,
-                          address,
-                          postal_code,
-                          state,
-                          country,
-                          verified,
-                        } = data;
-                        const responseData = {
-                          _id,
-                          full_name,
-                          username,
-                          email,
-                          telephone,
-                          address,
-                          postal_code,
-                          state,
-                          country,
-                          verified,
-                        };
                         res.status(201).json({
                           msg: "User has been verified!",
-                          user: responseData,
                         });
                       })
                       .catch((err) => {
@@ -301,34 +244,9 @@ const resendVerify = asyncWrapper(async (req, res) => {
                 UserVerify.deleteOne({ userId: data._id })
                   .then(() => {
                     sendVerificationEmail(data, req, res);
-                    const {
-                      _id,
-                      full_name,
-                      username,
-                      email,
-                      telephone,
-                      address,
-                      postal_code,
-                      state,
-                      country,
-                      verified,
-                    } = data;
-                    const responseData = {
-                      _id,
-                      full_name,
-                      username,
-                      email,
-                      telephone,
-                      address,
-                      postal_code,
-                      state,
-                      country,
-                      verified,
-                    };
                     res.status(201).json({
                       verification:
                         "A verification link has been sent to your email. Please check your inbox",
-                      user: responseData,
                     });
                   })
                   .catch((err) => {
@@ -404,68 +322,13 @@ const login = asyncWrapper(async (req, res) => {
                   ) {
                     req.session.userId = data._id;
                     req.session.isAuth = true;
-                    const {
-                      _id,
-                      full_name,
-                      username,
-                      email,
-                      telephone,
-                      address,
-                      postal_code,
-                      state,
-                      country,
-                      verified,
-                    } = data;
-                    const responseData = {
-                      _id,
-                      full_name,
-                      username,
-                      email,
-                      telephone,
-                      address,
-                      postal_code,
-                      state,
-                      country,
-                      verified,
-                    };
-                    res
-                      .status(201)
-                      .json({ msg: "Login successful", user: responseData });
+                    res.status(201).json({ msg: "Login successful" });
                   } else {
                     ResetPassword.findOneAndDelete({ userId: info[0].userId })
                       .then(() => {
                         req.session.userId = data._id;
                         req.session.isAuth = true;
-                        const {
-                          _id,
-                          full_name,
-                          username,
-                          email,
-                          telephone,
-                          address,
-                          postal_code,
-                          state,
-                          country,
-                          verified,
-                        } = data;
-                        const responseData = {
-                          _id,
-                          full_name,
-                          username,
-                          email,
-                          telephone,
-                          address,
-                          postal_code,
-                          state,
-                          country,
-                          verified,
-                        };
-                        res
-                          .status(201)
-                          .json({
-                            msg: "Login successful",
-                            user: responseData,
-                          });
+                        res.status(201).json({ msg: "Login successful" });
                       })
                       .catch((err) => {
                         console.log(err);
@@ -512,10 +375,9 @@ const forgotPassword = asyncWrapper(async (req, res) => {
         // Handles password reset
         console.log(data);
         sendPasswordLink(data, req, res);
-        res.status(201).json({
-          msg: "Password reset link sent. Please check your inbox!",
-          user: data,
-        });
+        res
+          .status(201)
+          .json({ msg: "Password reset link sent. Please check your inbox!" });
       }
     })
     .catch((err) => {
@@ -528,8 +390,7 @@ const forgotPassword = asyncWrapper(async (req, res) => {
 
 // Send Reset Password Link
 const sendPasswordLink = ({ _id, email }, req, res) => {
-  const currentUrl =
-    "https://loansystem.onrender.com/api/v1/loan/viewresetpasswordpage";
+  const currentUrl = "http://localhost:3000/api/v1/loan/viewresetpasswordpage";
   const uniqueString = uuidv4() + _id;
   const mailOptions = sendPasswordResetLink(
     email,
@@ -580,8 +441,7 @@ const sendPasswordLink = ({ _id, email }, req, res) => {
 
 // View password reset page
 const viewResetPasswordPage = asyncWrapper(async (req, res) => {
-  const currentUrl =
-    "https://loansystem.onrender.com/api/v1/loan/changepassword";
+  const currentUrl = "http://localhost:3000/api/v1/loan/changepassword";
   let { userId, uniqueString } = req.params;
   res.status(201).json({
     msg: "Password has been reset. Follow this URL to input your new password",
@@ -626,34 +486,9 @@ const changePassword = asyncWrapper(async (req, res) => {
                 User.updateOne({ _id: userId }, { password: password })
                   .then(() => {
                     ResetPassword.deleteOne({ userId })
-                      .then((data) => {
-                        const {
-                          _id,
-                          full_name,
-                          username,
-                          email,
-                          telephone,
-                          address,
-                          postal_code,
-                          state,
-                          country,
-                          verified,
-                        } = data;
-                        const responseData = {
-                          _id,
-                          full_name,
-                          username,
-                          email,
-                          telephone,
-                          address,
-                          postal_code,
-                          state,
-                          country,
-                          verified,
-                        };
+                      .then(() => {
                         res.status(201).json({
                           msg: "Password reset successful!",
-                          user: responseData,
                         });
                       })
                       .catch((err) => {
@@ -701,14 +536,7 @@ const changePassword = asyncWrapper(async (req, res) => {
 // Logout API
 const logout = asyncWrapper(async (req, res) => {
   req.session.destroy();
-  res.status(200).json({ msg: "Logout successful" });
-});
-
-// Dashboard API
-const dashboard = asyncWrapper(async (req, res) => {
-  if (req.session.isAuth) {
-  } else {
-  }
+  res.status(200).json({ message: "Logout successful" });
 });
 
 module.exports = {
@@ -721,5 +549,4 @@ module.exports = {
   forgotPassword,
   changePassword,
   viewResetPasswordPage,
-  home,
 };
