@@ -17,13 +17,13 @@ Mongoose
 
 Install Node.js and MongoDB on your machine.
 
-# Clone the repository to your local machine.
+Clone the repository to your local machine.
 
-# Install the required dependencies using the following command in the root directory:
+Install the required dependencies using the following command in the root directory:
 
 "npm install"
 
-# Create a .env file in the root directory of the project and add the following environment variables:
+Create a .env file in the root directory of the project and add the following environment variables:
 
 MONGO_URI = <Your_Mongo_URI_here>
 
@@ -38,7 +38,7 @@ AUTH_PASS = <Your_Sendinblue.com_password_credentials>
 PAYSTACK_SECRET_KEY = <Your_paystack_secret_live_key>
 
 
-# Start the server using the following command:
+Start the server using the following command:
 
 "npm start"
 
